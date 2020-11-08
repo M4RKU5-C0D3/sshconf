@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
     "name": "m4rku5/sshconf",
     "description": "A tool to manage ssh config files",
-=======
-    "name": "m4rku5/clockify",
-    "description": "A API wrapper for clockify.me",
->>>>>>> 9d4762949a8453b5942dc1dc170dce5344c3afb1
     "keywords": [
         "SSHConf"
     ],
