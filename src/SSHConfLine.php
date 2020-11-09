@@ -15,14 +15,53 @@ class SSHConfLine
 
     public function __construct($line)
     {
-        $this->line = $line;
+        $this->line = trim($line, "\n\r");
         $this->parse();
     }
 
-    public function parse()
+    private function parse(): self
     {
-        if (preg_match('/^(#?)\s*([^\s]*)\s+(.*)\s*$/', $this->line, $matches) === false) {
+        if (empty($this->line)) return $this;
+        if (preg_match('/^(#?)(\s*[^\s]*)\s+(.*)\s*$/', $this->line, $matches) === false) {
             throw new \RuntimeException('could not parse line: ' . $this);
+        }
+        $this->comment = ($matches[1] == '#');
+        if ($this->comment) {
+            $this->value = trim($matches[2] . $matches[3]);
+        } else {
+            $this->key = trim($matches[2]);
+            $this->value = trim($matches[3]);
+        }
+        return $this;
+    }
+
+    public function key(string $key = null)
+    {
+        if ($key === null) {
+            return $this->key;
+        } else {
+            str_replace($this->key, $key, $this->line);
+            $this->parse();
+        }
+    }
+
+    public function value(string $value = null)
+    {
+        if ($value === null) {
+            return $this->value;
+        } else {
+            str_replace($this->value, $value, $this->line);
+            $this->parse();
+        }
+    }
+
+    public function comment(bool $comment = null)
+    {
+        if ($comment === null) {
+            return $this->comment;
+        } else {
+            //  TODO@MM: implement...
+            $this->parse();
         }
     }
 

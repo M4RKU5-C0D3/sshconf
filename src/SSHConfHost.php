@@ -11,15 +11,25 @@ class SSHConfHost
     /** @var boolean $comment */
     private $comment;
 
-    public function __construct(array $lines)
+    public function __construct(SSHConfLine $line)
     {
-        $this->lines = $lines;
-        $this->parse();
+        $this->attach($line);
+        $this->name = $line->value();
+        $this->comment = $line->comment();
     }
 
-    public function parse()
+    public function attach(SSHConfLine $line)
     {
-        // TODO@MM: implement...
+        $this->lines[] = $line;
+    }
+
+    public function name(string $name = null)
+    {
+        if ($name === null) {
+            return $this->name;
+        } else {
+            // TODO@MM: implement...
+        }
     }
 
     public function __toString(): string
